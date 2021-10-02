@@ -1,0 +1,19 @@
+web:
+  image: 'gitlab/gitlab-ce:latest'
+  container_name: gitlab-ce
+  restart: always
+  hostname: 'CHANGE_ME'
+  environment:
+    GITLAB_ROOT_PASSWORD: "password"
+    GITLAB_OMNIBUS_CONFIG: |
+      gitlab_rails['monitoring_whitelist'] = ['127.0.0.1', '0.0.0.0/0']
+      external_url 'http://CHANGE_ME'
+      gitlab_rails['gitlab_shell_ssh_port'] = 2224
+  ports:
+    - '80:80'
+    - '443:443'
+    - '2224:22'
+  volumes:
+    - '$GITLAB_HOME/config:/etc/gitlab'
+    - '$GITLAB_HOME/logs:/var/log/gitlab'
+    - '$GITLAB_HOME/data:/var/opt/gitlab'
